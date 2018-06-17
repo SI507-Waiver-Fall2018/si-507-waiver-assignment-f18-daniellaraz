@@ -1,6 +1,6 @@
-#Full Name: Daniella Raz
-#Uniqname: drraz
-#UMID: 86870313
+## Full Name: Daniella Raz
+## Uniqname: drraz
+## UMID: 86870313
 
 # library imports
 import tweepy
@@ -33,9 +33,8 @@ total_num_favorites = 0
 total_num_retweets = 0
 
 # retrieves only tweets of certain user and only certain number
-# separates original from the retweets+originals
+# separates original from the retweets+originals to get full text of retweeted ones
 for tweet in tweepy.Cursor(api.user_timeline,id=user_name,tweet_mode='extended').items(num_tweets):
-
     # selecting only the original tweets from the tweets, finding retweet and favorite count of only originals
     if not hasattr(tweet, 'retweeted_status'):
         total_num_favorites += tweet.favorite_count
@@ -49,38 +48,56 @@ for tweet in tweepy.Cursor(api.user_timeline,id=user_name,tweet_mode='extended')
 list_of_tweets = list_of_retweets + list_original_tweets
 num_original_tweets = len(list_original_tweets)
 
-# analyzing all tweets thus turning list of separate tweet texts into one string
+# analyzing all tweets so turning list of separate tweet texts into one string
 tweets_string = ' '.join(list_of_tweets)
+# removing https, http links, hastags and @'s, numbers
+tweets_string = re.sub('(\B[#|@]\w+)|((http)(s*)://[^\s]+)', '', tweets_string)
+# removing numbers
+tweets_string = re.sub(' \d+', '', tweets_string)
 
-# removing https, http links
-tweets_string = re.sub('(http)(s*)://[^\s]+', '', tweets_string)
-# removing hashtags and @
-tweets_string = re.sub('\B[#|@]\w+', '', tweets_string)
-# removing numbers and words starting with number
-tweets_string = re.sub('\d\w+', '', tweets_string)
-
-#making stopwords list, adding rt and RT, and tokenizing
-stop_words = stopwords.words('english') + ['rt', 'RT']
+#making stopwords list of rt and RT in addition to above regex and tokenizing
+stop_words = ['rt', 'RT']
 tokens = nltk.word_tokenize(tweets_string)
 
-#removing words from tokens that are either stop words or simply punctuation
+#removing words from tokens that are either stop words, emojis or simply punctuation
 list_of_tokens = []
 for token in tokens:
     if token not in stop_words and token not in string.punctuation:
         list_of_tokens.append(token)
 
-list_of_pos = nltk.pos_tag(tokens)
+# Part of Speech tagging and organizing, separating verbs, nouns and adjectives
+list_of_pos = nltk.pos_tag(list_of_tokens)
+list_of_verbs = []
+list_of_nouns = []
+list_of_adj = []
+for word,pos in list_of_pos:
+    if pos in ('VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ'):
+        list_of_verbs.append((word,pos))
+    if pos in ('NN' ,'NNS', 'NNP', 'NNPS'):
+        list_of_nouns.append((word,pos))
+    if pos in ('JJ', 'JJS', 'JJR'):
+        list_of_adj.append((word,pos))
+
+# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
+verb_counts = Counter(word for word,pos in list_of_verbs)
+#verb_counts = dict(verb_counts)
+verb_counts = sorted(verb_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
+
+noun_counts = Counter(word for word,pos in list_of_nouns)
+#noun_counts = dict(noun_counts)
+noun_counts = sorted(noun_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
+
+adj_counts = Counter(word for word,pos in list_of_adj)
+#adj_counts = dict(adj_counts)
+adj_counts = sorted(adj_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
 
 
-#print([(word, tag) for word, tag in list_of_pos if tag in ('NN', 'NNS', 'NNP', 'NNPS', 'VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ', 'JJ', 'JJS', 'JJR')])
-
-
-# printing the information
+# printing the information, and first 5 (aka most frequent given previous sorting) of verbs, nouns, adjectives
 print("USER: ", user_name)
 print("TWEETS ANALYZED: ", num_tweets)
-print("VERBS: ")
-print("NOUNS: ")
-print("ADJECTIVES: ")
+print("VERBS: ", verb_counts[0:5])
+print("NOUNS: ", noun_counts[0:5])
+print("ADJECTIVES: ", adj_counts[0:5])
 print("ORIGINAL TWEETS: ", num_original_tweets)
 print("TIMES FAVORITED (ORIGINAL TWEETS ONLY):", total_num_favorites)
 print("TIMES RETWEETED (ORIGINAL TWEETS ONLY):", total_num_retweets)
