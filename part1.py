@@ -11,6 +11,7 @@ import re
 from collections import Counter
 from nltk.corpus import stopwords
 import string
+import csv
 
 # setting up command line input for python
 user_name = sys.argv[1]
@@ -91,7 +92,6 @@ adj_counts = Counter(word for word,pos in list_of_adj)
 #adj_counts = dict(adj_counts)
 adj_counts = sorted(adj_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
 
-
 # printing the information, and first 5 (aka most frequent given previous sorting) of verbs, nouns, adjectives
 print("USER: ", user_name)
 print("TWEETS ANALYZED: ", num_tweets)
@@ -101,3 +101,11 @@ print("ADJECTIVES: ", adj_counts[0:5])
 print("ORIGINAL TWEETS: ", num_original_tweets)
 print("TIMES FAVORITED (ORIGINAL TWEETS ONLY):", total_num_favorites)
 print("TIMES RETWEETED (ORIGINAL TWEETS ONLY):", total_num_retweets)
+
+# writing five most common nouns to a csv file
+top_nouns = noun_counts[0:5]
+top_nouns.insert(0, ("Noun", "Number"))
+myFile = open('noun_data.csv', 'w')
+with myFile:
+    writer = csv.writer(myFile)
+    writer.writerows(top_nouns)
