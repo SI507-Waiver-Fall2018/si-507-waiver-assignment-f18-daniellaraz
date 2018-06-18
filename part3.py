@@ -1,3 +1,7 @@
+## Full Name: Daniella R. Raz
+## Uniqname: drraz
+## UMID: 86870313
+
 # these should be the only imports you need
 import requests
 from bs4 import BeautifulSoup
