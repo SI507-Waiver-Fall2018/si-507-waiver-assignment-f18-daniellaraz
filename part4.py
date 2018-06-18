@@ -1,3 +1,7 @@
+## Full Name: Daniella R. Raz
+## Uniqname: drraz
+## UMID: 86870313
+
 # Imports -- you may add others but do not need to
 import plotly
 import csv
