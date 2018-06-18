@@ -99,8 +99,8 @@ print("VERBS: ", verb_counts[0:5])
 print("NOUNS: ", noun_counts[0:5])
 print("ADJECTIVES: ", adj_counts[0:5])
 print("ORIGINAL TWEETS: ", num_original_tweets)
-print("TIMES FAVORITED (ORIGINAL TWEETS ONLY):", total_num_favorites)
-print("TIMES RETWEETED (ORIGINAL TWEETS ONLY):", total_num_retweets)
+print("TIMES FAVORITED (ORIGINAL TWEETS ONLY): ", total_num_favorites)
+print("TIMES RETWEETED (ORIGINAL TWEETS ONLY): ", total_num_retweets)
 
 # writing five most common nouns to a csv file
 top_nouns = noun_counts[0:5]
