@@ -2,7 +2,6 @@
 ## Uniqname: drraz
 ## UMID: 86870313
 
-# library imports
 import tweepy
 import nltk
 import json
@@ -56,11 +55,11 @@ tweets_string = re.sub('(\B[#|@]\w+)|((http)(s*)://[^\s]+)', '', tweets_string)
 # removing numbers
 tweets_string = re.sub(' \d+', '', tweets_string)
 
-#making stopwords list of rt and RT in addition to above regex and tokenizing
+# making stopwords list of rt and RT in addition to above regex and tokenizing
 stop_words = ['rt', 'RT']
 tokens = nltk.word_tokenize(tweets_string)
 
-#removing words from tokens that are either stop words, emojis or simply punctuation
+# removing words from tokens that are either stop words, emojis or simply punctuation
 list_of_tokens = []
 for token in tokens:
     if token not in stop_words and token not in string.punctuation:
@@ -81,23 +80,46 @@ for word,pos in list_of_pos:
 
 # Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 verb_counts = Counter(word for word,pos in list_of_verbs)
-#verb_counts = dict(verb_counts)
 verb_counts = sorted(verb_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
+top_verbs = verb_counts[0:5]
+# formatting to print out like sample: word(count) word(count) etc..
+verb_list = []
+for verb, count in top_verbs:
+    count = str(count)
+    verb = verb+"("+count+")"
+    verb_list.append(verb)
+verbs = " ".join(verb_list)
 
+# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 noun_counts = Counter(word for word,pos in list_of_nouns)
-#noun_counts = dict(noun_counts)
 noun_counts = sorted(noun_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
+top_nouns = noun_counts[0:5]
+# formatting to print out like sample: word(count) word(count) etc..
+noun_list = []
+for noun, count in top_nouns:
+    count = str(count)
+    noun = noun+"("+count+")"
+    noun_list.append(noun)
+nouns = " ".join(noun_list)
 
+# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 adj_counts = Counter(word for word,pos in list_of_adj)
-#adj_counts = dict(adj_counts)
 adj_counts = sorted(adj_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
+top_adj = adj_counts[0:5]
+# formatting to print out like sample: word(count) word(count) etc..
+adj_list = []
+for adj, count in top_adj:
+    count = str(count)
+    adj = adj+"("+count+")"
+    adj_list.append(adj)
+adjectives = " ".join(adj_list)
 
 # printing the information, and first 5 (aka most frequent given previous sorting) of verbs, nouns, adjectives
 print("USER: ", user_name)
 print("TWEETS ANALYZED: ", num_tweets)
-print("VERBS: ", verb_counts[0:5])
-print("NOUNS: ", noun_counts[0:5])
-print("ADJECTIVES: ", adj_counts[0:5])
+print("VERBS: ", verbs)
+print("NOUNS: ", nouns)
+print("ADJECTIVES: ", adjectives)
 print("ORIGINAL TWEETS: ", num_original_tweets)
 print("TIMES FAVORITED (ORIGINAL TWEETS ONLY): ", total_num_favorites)
 print("TIMES RETWEETED (ORIGINAL TWEETS ONLY): ", total_num_retweets)
