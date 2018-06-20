@@ -2,11 +2,10 @@
 ## Uniqname: drraz
 ## UMID: 86870313
 
-# these should be the only imports you need
 import sys
 import sqlite3
 import string
-# write your code here
+
 # usage should be
 #  python3 part2.py customers
 #  python3 part2.py employees
@@ -26,15 +25,21 @@ if len(argument_list)>1:
 conn = sqlite3.connect('Northwind_small.sqlite')
 cur = conn.cursor()
 
+
 if table_name == 'Customer':
-    customer_names = cur.execute("SELECT CompanyName FROM %s" % (table_name))
+    customer_names = cur.execute("SELECT Id, CompanyName FROM %s" % (table_name))
     customer_names = customer_names.fetchall()
-    print(customer_names)
+    print("ID    Customer Name")
+    for customer_id, customer_name in customer_names:  # <-- this unpacks the tuple like a, b = (0, 1)
+        print(customer_id, customer_name)
 
 elif table_name == 'Employee':
-    employee_names = cur.execute("SELECT FirstName, LastName FROM %s" % (table_name))
+    employee_names = cur.execute("SELECT Id, FirstName, LastName FROM %s" % (table_name))
     employee_names = employee_names.fetchall()
-    print(employee_names)
+    print("ID   Employee Name")
+    for employee_id, first_name, last_name in employee_names:
+        print(employee_id, "  ", first_name, last_name)
+
 
 else:
     employee_names = cur.execute("SELECT Id FROM Order")
