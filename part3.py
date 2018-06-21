@@ -1,13 +1,9 @@
-## Full Name: Daniella R. Raz
+## Full Name: Daniella Raz
 ## Uniqname: drraz
 ## UMID: 86870313
 
-# these should be the only imports you need
 import requests
 from bs4 import BeautifulSoup
-
-# write your code here
-# usage should be python3 part3.py
 
 base_url = "https://www.michigandaily.com/"
 r = requests.get(base_url)
@@ -22,6 +18,7 @@ for list_of_most_read in soup.find_all(class_ = "view view-most-read view-id-mos
         list_of_article_URLS.append(a['href'])
 
 # iterating through list of URLs of most read and accessing the title, and byline of each
+print("Michigan Daily -- MOST READ")
 for URLs in list_of_article_URLS:
     r2 = requests.get(base_url + URLs)
     soup2 = BeautifulSoup(r2.text, "lxml")
