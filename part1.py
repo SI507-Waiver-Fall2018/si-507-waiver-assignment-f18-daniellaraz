@@ -1,4 +1,4 @@
-## Full Name: Daniella R. Raz
+## Full Name: Daniella Raz
 ## Uniqname: drraz
 ## UMID: 86870313
 
@@ -78,7 +78,7 @@ for word,pos in list_of_pos:
     if pos in ('JJ', 'JJS', 'JJR'):
         list_of_adj.append((word,pos))
 
-# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
+# Counting occurrences of each verb, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 verb_counts = Counter(word for word,pos in list_of_verbs)
 verb_counts = sorted(verb_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
 top_verbs = verb_counts[0:5]
@@ -90,7 +90,7 @@ for verb, count in top_verbs:
     verb_list.append(verb)
 verbs = " ".join(verb_list)
 
-# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
+# Counting occurrences of each noun, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 noun_counts = Counter(word for word,pos in list_of_nouns)
 noun_counts = sorted(noun_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
 top_nouns = noun_counts[0:5]
@@ -102,7 +102,7 @@ for noun, count in top_nouns:
     noun_list.append(noun)
 nouns = " ".join(noun_list)
 
-# Counting occurrences of each word, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
+# Counting occurrences of each adjective, and sorting first by number of occurrence, then by alphabetical ascending order of the word, with capitalized preceding the lowercase version of the word if both exist
 adj_counts = Counter(word for word,pos in list_of_adj)
 adj_counts = sorted(adj_counts.items(), key=lambda x: (-x[1],x[0].casefold()), reverse=False)
 top_adj = adj_counts[0:5]
