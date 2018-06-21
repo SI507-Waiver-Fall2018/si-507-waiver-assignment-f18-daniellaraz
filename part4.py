@@ -1,15 +1,11 @@
-## Full Name: Daniella R. Raz
+## Full Name: Daniella Raz
 ## Uniqname: drraz
 ## UMID: 86870313
 
-# Imports -- you may add others but do not need to
 import plotly
 import csv
 import plotly.plotly as py
 import plotly.graph_objs as go
-
-# Code here should involve creation of the bar chart as specified in instructions
-# And opening / using the CSV file you created earlier with noun data from tweets
 
 # plotly set-up
 plotly.tools.set_credentials_file(username = "daniellaraz", api_key = "ooNZamadcvfla8lruAJ6")
