@@ -21,10 +21,8 @@ if len(argument_list)>1:
     column_info = argument_list[1]
     col_name, col_value = column_info.split("=")
 
-
 conn = sqlite3.connect('Northwind_small.sqlite')
 cur = conn.cursor()
-
 
 if table_name == 'Customer':
     customer_names = cur.execute("SELECT Id, CompanyName FROM %s" % (table_name))
@@ -42,16 +40,16 @@ elif table_name == 'Employee':
 
 
 else:
-    employee_names = cur.execute("SELECT Id FROM Order")
-    employee_names = employee_names.fetchall()
-    print(employee_names)
-    # if col_name == 'cust':
-    #     order_date_from_customer = cur.execute("""SELECT OrderDate, CustomerId FROM Order WHERE CustomerId = ?;""", (col_value,))
-    #     order_date_from_customer = order_date_from_customer.fetchall()
-    #     print(order_date_from_customer)
-    # else:
-    #     order_dates_from_employee = cur.execute('SELECT OrderDate FROM %s WHERE EmployeeID = (SELECT Id FROM Employee WHERE LastName = %s)' %(col_value))
-    #     order_dates_from_employee = order_dates_from_employee.fetchall()
-    #     print(order_dates_from_employee)
+    if col_name == 'cust':
+        order_date_from_customer = cur.execute("""SELECT OrderDate FROM [Order] WHERE CustomerId = ?;""", (col_value,))
+        order_date_from_customer = order_date_from_customer.fetchall()
+        print("Order dates")
+        for date_tuple in order_date_from_customer:
+            for date in date_tuple:
+                print(date)
+    else:
+        order_dates_from_employee = cur.execute('SELECT OrderDate FROM [Order] WHERE EmployeeID = (SELECT Id FROM Employee WHERE LastName = %s)' %(col_value))
+        order_dates_from_employee = order_dates_from_employee.fetchall()
+        print(order_dates_from_employee)
 
 conn.close()
