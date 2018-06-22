@@ -12,7 +12,7 @@ import string
 #  python3 part2.py orders cust=<customer id>
 #  python3 part2.py orders emp=<employee last name>
 
-#command-line argument set-up
+# command-line argument set-up
 argument_list = [x for x in sys.argv if x in sys.argv[1:]]
 table_name = argument_list[0]
 table_name = table_name.title()[:-1]
