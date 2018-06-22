@@ -28,4 +28,4 @@ for URLs in list_of_article_URLS:
 
     for bylines in soup2.find_all(class_ = "byline"):
         for names in bylines.find_all(class_ = "link"):
-            print("by: ", names.text)
+            print("by", names.text)
