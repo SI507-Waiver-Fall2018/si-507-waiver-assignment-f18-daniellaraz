@@ -25,6 +25,6 @@ noun_data = [go.Bar(
         y = count_list
         )]
 
-layout = go.Layout(title = "Frequency of Top Five Nouns")
+layout = go.Layout(title = "Frequency of Top Five Nouns", yaxis={'tickformat': ',d'})
 fig = go.Figure(data = noun_data, layout = layout)
 py.image.save_as(fig, filename = "part4_viz_image.png")
