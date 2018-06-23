@@ -54,6 +54,10 @@ tweets_string = ' '.join(list_of_tweets)
 tweets_string = re.sub('(\B[#|@]\w+)|((http)(s*)://[^\s]+)', '', tweets_string)
 # removing numbers
 tweets_string = re.sub(' \d+', '', tweets_string)
+# removing emojis
+# source: https://gist.github.com/Alex-Just/e86110836f3f93fe7932290526529cd1
+emoji_pattern = re.compile("["u"\U00010000-\U0010ffff""]+", flags=re.UNICODE)
+tweets_string = emoji_pattern.sub(r'', tweets_string)
 
 # making stopwords list of rt and RT in addition to above regex and tokenizing
 stop_words = ['rt', 'RT']
