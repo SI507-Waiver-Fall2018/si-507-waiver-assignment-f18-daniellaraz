@@ -12,7 +12,7 @@ from nltk.corpus import stopwords
 import string
 import csv
 
-# setting up command line input for python
+# setting up command line input
 user_name = sys.argv[1]
 num_tweets = int(sys.argv[2])
 
